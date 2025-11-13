@@ -5,10 +5,10 @@
 terraform {
   backend "azurerm" {
     resource_group_name  = "terraform"              # RG holding the remote state storage account
-    storage_account_name = "<REPLACE_STORAGE_ACCOUNT>"  # e.g. terraformabcd (must exist)
+    storage_account_name = "smbcterraformstate"  # e.g. terraformabcd (must exist)
     container_name       = "tfstate"                # Must exist within the storage account
-    key                  = "sonic-brief.<env>.tfstate"  # Unique key per environment (dev/staging/prod)
-    # use_azuread_auth   = true  # Uncomment to use Azure AD auth instead of access keys
+    key                  = "sonic-brief.dev.tfstate"  # Unique key per environment (dev/staging/prod)
+    use_azuread_auth   = true  # Uncomment to use Azure AD auth instead of access keys
   }
 }
 
