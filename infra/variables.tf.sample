@@ -61,7 +61,7 @@ variable "model_output_cost_per_million" { default = 0 }
 variable "speech_audio_cost_per_hour"    { default = 0 }
 
 # Misc branding
-variable "frontend_app_title"    { default = "OneWales Digital" }
+variable "frontend_app_title"    { default = "SMBC Digital/Projects" }
 variable "frontend_app_subtitle" { default = "Sonic Brief" }
 
 # Alert toggles (emails supplied only if action group enabled)
