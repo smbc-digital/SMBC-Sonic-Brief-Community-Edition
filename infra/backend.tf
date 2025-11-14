@@ -2,18 +2,31 @@
 # Copy to backend.tf and replace PLACEHOLDERS with real values.
 # Keep secrets (like storage account name if sensitive) out of version control by using a sample template.
 
+
+
 terraform {
   backend "azurerm" {
-    resource_group_name  = "terraform"              # RG holding the remote state storage account
-    storage_account_name = "smbcterraformstate"  # e.g. terraformabcd (must exist)
-    container_name       = "tfstate"                # Must exist within the storage account
-    key                  = "sonic-brief.dev.tfstate"  # Unique key per environment (dev/staging/prod)
-    use_azuread_auth   = true  # Uncomment to use Azure AD auth instead of access keys
+    resource_group_name   = "terraform"                   # RG holding the remote state storage account
+    storage_account_name  = "smbcterraformstate"          # e.g. terraformabcd (must exist)
+    container_name        = "tfstate"                     # Must exist within the storage account
+#   key                   = "sonic-brief.<env>.tfstate"   #" - Unique key per environment (int/staging/prod) - passed in at init time see usage below
+    use_azuread_auth      = true                          # Uncomment to use Azure AD auth instead of access keys
   }
 }
 
 # Usage:
 # 1. Provision RG + storage account + container (see infra/README.md for commands).
 # 2. Copy this file to backend.tf and fill real values.
-# 3. Run: terraform init -reconfigure
+# 3. Run: terraform init -reconfigure -var sonic-brief.int.tfstate - To vary between envinrments, pass in different keys or see options below.
+#
+# Bash Usage
+# export TF_STATE_KEY="sonic-brief.[ENV].tfstate"
+# terraform init -backend-config="key=$TF_STATE_KEY"
+
+#-------------------------------------------
+
+# Powershell Usage
+# $env:TF_STATE_KEY = "sonic-brief.int.tfstate"
+# terraform init -backend-config="key=$env:TF_STATE_KEY"
+#
 # 4. For multiple environments, maintain separate backend.tf files outside VCS or generate via pipeline.
